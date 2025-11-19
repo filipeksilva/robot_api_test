@@ -1,0 +1,21 @@
+[project]
+name = "robot-api-test"
+version = "0.1.0"
+description = "Testando API com Robot Framework"
+authors = [
+    {name = "filipeksilva",email = "filipesilvapro@gmail.com"}
+]
+requires-python = "^3.11"
+dependencies = [
+    "robotframework (>=6.1.1,<7.0.0)",
+    "robotframework-faker (>=6.0.0,<7.0.0)",
+    "robotframework-jsonlibrary (>=0.5,<0.6)",
+    "robotframework-requests (>=0.9.7,<0.10.0)",
+    "pyyaml (>=6.0.3,<7.0.0)"
+]
+package-mode = false
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
