@@ -1,0 +1,18 @@
+url: 
+  qa: https://jsonplaceholder.typicode.com
+  stg: https://jsonplaceholder-stg.typicode.com
+  prd: https://jsonplaceholder-prd.typicode.com
+
+user_data:
+  qa: 
+    user_name: Test User QA
+    user_email: test_user_qa@robot.com
+    password: psw123qa
+  stg: 
+    user_name: Test User STG
+    user_email: test_user_stg@robot.com
+    password: psw123stg
+  prd: 
+    user_name: Test User PRD
+    user_email: test_user_prd@robot.com
+    password: psw123prd

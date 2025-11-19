@@ -5,6 +5,8 @@ Library    JSONLibrary
 Library    Collections
 Resource   ../session/order_session.robot
 
+*** Variables ***
+${env}
 
 *** Keywords ***
 request.post.orders
@@ -15,8 +17,8 @@ request.post.orders
     ...  ${items_quantity}
     ...  ${items_price}
     ...  ${status_code}
-    ...  ${customer_name}=Test User
-    ...  ${customer_email}=test_user@robot.com
+    ...  ${customer_name}=${user_data.${env}.user_name}
+    ...  ${customer_email}=${user_data.${env}.user_email}
     ...  ${shipping_address}=${True}   
     [Return]  ${response}
 
