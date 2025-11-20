@@ -1,12 +1,11 @@
 *** Settings ***
 Library    RequestsLibrary
-Variables    ../test_data/test_data.yaml
 
 *** Variables ***
-${env}
+${env}    qa    #Caso não seja passada a variável de ambiente na linha de comando, será executado por padrão no ambiente 'qa'.
 
 *** Keywords ***
-session.orders
+Create Orders Session
     [Return]
     ...  ${alias}    
 

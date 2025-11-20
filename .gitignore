@@ -1,3 +1,42 @@
+# ------------------------------
+# Python cache files
+# ------------------------------
+__pycache__/
+*.pyc
+
+# ------------------------------
+# IDE and editor settings
+# ------------------------------
 /.vscode
-/log
+/.idea
+
+# ------------------------------
+# Framework / tooling caches
+# ------------------------------
+/.robot_framework/        # Robot Framework cache folder
+/.pytest_cache/           # Pytest cache (se usado)
+/coverage/                # Coverage reports
+
+# ------------------------------
+# Logs and reports
+# ------------------------------
+/log                      # Pasta de logs gerados pelos testes
+*.log                     # Logs em arquivos individuais
+*.html                    # Relatórios HTML do Robot
+*.xml                     # output.xml, report.xml, junit.xml etc.
+
+# ------------------------------
+# Local/environment files
+# ------------------------------
+.env                      # Arquivo de ambiente
+*.env                     # Variações de .env (.env.qa, etc.)
+
+# ------------------------------
+# Database or temp files
+# ------------------------------
+*.db                      # Arquivos SQLite / temporários
+
+# ------------------------------
+# Poetry
+# ------------------------------
 /poetry.lock

@@ -1,8 +1,6 @@
 *** Settings ***
 Test Tags   order
-Library     RequestsLibrary
-Resource    ../Resources/requests/post_order.robot
-Resource    ../Resources/asserts/assert_post_order.robot
+Resource    ../base.resource
 
 *** Test Cases ***
 Cenário: Criar pedido de venda com um item com endereço
@@ -11,7 +9,7 @@ Cenário: Criar pedido de venda com um item com endereço
     @{quantity}  Create List  2
     @{price}  Create List  25
     
-    ${response}  request.post.orders    
+    ${response}  Request Post Orders
     ...    order_id=123456
     ...    status=Open
     ...    items_product=@{product}
@@ -19,7 +17,7 @@ Cenário: Criar pedido de venda com um item com endereço
     ...    items_price=@{price}
     ...    status_code=201
 
-    asserts.post.orders
+    Assert Post Orders
     ...    response=${response}
     ...    products=@{product}
 
@@ -29,7 +27,7 @@ Cenário: Criar pedido de venda com um item sem endereço
     @{quantity}  Create List  ${2}
     @{price}  Create List  ${25}
     
-    ${response}  request.post.orders    
+    ${response}  Request Post Orders
     ...    order_id=123456
     ...    status=Open
     ...    items_product=@{product}
@@ -38,7 +36,7 @@ Cenário: Criar pedido de venda com um item sem endereço
     ...    shipping_address=${False}
     ...    status_code=201
 
-    asserts.post.orders
+    Assert Post Orders
     ...    response=${response}
     ...    products=@{product}
 
@@ -48,7 +46,7 @@ Cenário: Criar pedido de venda com mais de um item
     @{quantity}  Create List  ${2}  ${3}  ${4}
     @{price}  Create List  ${25}  ${35}  ${45}
 
-    ${response}  request.post.orders    
+    ${response}  Request Post Orders
     ...    order_id=123456
     ...    status=Open
     ...    items_product=@{product}
@@ -56,6 +54,6 @@ Cenário: Criar pedido de venda com mais de um item
     ...    items_price=@{price}
     ...    status_code=201
 
-    asserts.post.orders
+    Assert Post Orders
     ...    response=${response}
     ...    products=@{product}

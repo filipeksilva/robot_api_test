@@ -33,22 +33,8 @@ poetry run where python
 "Robot > Language-server: Python"
 
 ### Execução:
-Para executar os testes, rode o comando abaixo conforme o ambiente desejado:
-
-Em QA:
+Para executar os testes, rode o comando abaixo conforme o ambiente desejado (qa/stg/prd):
 
 ``` bash
 robot -d log -v env:qa .
-```
-
-Em STG:
-
-``` bash
-robot -d log -v env:stg .
-```
-
-Em PRD:
-
-``` bash
-robot -d log -v env:prd .
 ```

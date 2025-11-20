@@ -1,15 +1,11 @@
 *** Settings ***
-Library    RequestsLibrary
-Library    FakerLibrary
-Library    JSONLibrary
-Library    Collections
-Resource   ../session/order_session.robot
+Resource    ../../../base.resource
 
 *** Variables ***
 ${env}
 
 *** Keywords ***
-request.post.orders
+Request Post Orders
     [Arguments]
     ...  ${order_id}
     ...  ${status}
@@ -33,12 +29,12 @@ request.post.orders
         ${shipping_address_zipcode}  Set Variable  ${EMPTY}
     END
 
-    ${items}  ${total_price}  items.list    
+    ${items}  ${total_price}  Listing Items    
     ...    product=${items_product}    
     ...    quantity=${items_quantity}    
     ...    price=${items_price}
 
-    ${body}  body.post.orders    
+    ${body}  Body Post Orders
     ...    order_id=${order_id}
     ...    total_price=${total_price}
     ...    status=${status}
@@ -51,7 +47,7 @@ request.post.orders
         
     Set Test Variable    ${body}
 
-    ${alias}  session.orders
+    ${alias}  Create Orders Session
     
     ${response}   POST On Session
     ...  alias=${alias}
@@ -61,7 +57,7 @@ request.post.orders
     ...  msg=Erro ao criar pedido de venda
 
 
-items.list
+Listing Items
     [Arguments]
     ...  ${product}
     ...  ${quantity}
@@ -85,7 +81,7 @@ items.list
     ${total_price}  Evaluate    sum(int(item['quantity']) * int(item['price']) for item in ${items_list})
 
 
-body.post.orders   
+Body Post Orders  
     [Arguments]
     ...  ${order_id}
     ...  ${total_price}
@@ -110,3 +106,27 @@ body.post.orders
     ${body}  Update Value To Json    ${body}    $.order.shipping_address.street     ${street}
     ${body}  Update Value To Json    ${body}    $.order.shipping_address.city       ${city}
     ${body}  Update Value To Json    ${body}    $.order.shipping_address.zipcode    ${zipcode}
+
+Assert Post Orders
+    [Arguments]  
+    ...  ${response}
+    ...  ${products}
+
+    Should Be Equal As Strings  ${response.json()["order"]["order_id"]}            ${body["order"]["order_id"]}
+    Should Be Equal As Numbers  ${response.json()["order"]["total_price"]}         ${body["order"]["total_price"]}
+    Should Be Equal As Strings  ${response.json()["order"]["status"]}              ${body["order"]["status"]}
+    Should Be Equal As Strings  ${response.json()["order"]["customer"]["name"]}    ${body["order"]["customer"]["name"]}
+    Should Be Equal As Strings  ${response.json()["order"]["customer"]["email"]}   ${body["order"]["customer"]["email"]}
+
+    FOR    ${product}    IN    @{products}
+        ${body_items}  Get Value From Json    ${body}    $.order.items[?(@.product=="${product}")]
+        ${response_items}  Get Value From Json    ${response.json()}    $.order.items[?(@.product=="${product}")]
+        
+        Should Be Equal As Strings  ${response_items[0]["product"]}   ${body_items[0]["product"]}
+        Should Be Equal As Strings  ${response_items[0]["quantity"]}  ${body_items[0]["quantity"]}
+        Should Be Equal As Strings  ${response_items[0]["price"]}     ${body_items[0]["price"]}               
+    END
+
+    Should Be Equal As Strings  ${response.json()["order"]["shipping_address"]["street"]}   ${body["order"]["shipping_address"]["street"]}
+    Should Be Equal As Strings  ${response.json()["order"]["shipping_address"]["city"]}     ${body["order"]["shipping_address"]["city"]}
+    Should Be Equal As Strings  ${response.json()["order"]["shipping_address"]["zipcode"]}  ${body["order"]["shipping_address"]["zipcode"]}

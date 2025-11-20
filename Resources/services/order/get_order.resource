@@ -1,9 +1,26 @@
 *** Settings ***
-Resource    ../requests/get_order.robot
-Library     JSONLibrary
+Resource   ../../../base.resource
 
 *** Keywords ***
-asserts.get.orders
+Request Get Orders
+    [Arguments]
+    ...  ${order_id}
+    ...  ${status_code}
+    [Return]  
+    ...  ${response}
+    
+    ${alias}  Create Orders Session
+
+    ${headers}  Create Dictionary  robot=True
+
+    ${response}    GET On Session
+    ...  alias=${alias}
+    ...  url=/posts/${order_id}
+    ...  headers=${headers}
+    ...  expected_status=${status_code}
+    ...  msg=Falha ao realizar requisição GET
+    
+Assert Get Orders
     [Arguments]  
     ...  ${response}
 
@@ -15,5 +32,3 @@ asserts.get.orders
     ELSE IF    ${response.status_code} == ${404}
         Should Be Empty    ${response.json()}
     END
-
-
